@@ -15,4 +15,8 @@
 
 
 - use: Oracle JDK 1.8.0_391， gradle wrapper
+- source
+    - https://github.com/deepmedia/Transcoder/tree/v0.9.1
+    - https://github.com/natario1/Egloo/tree/v0.4.0
+        - Transcoder-0.9.1' s dependency, it also could not be found
 - build cmd：for Transcoder-0.9.1 and Egloo-0.4.0 both are `./gradlew.bat :lib:install`, and invoke this cmd in their respective directories.
