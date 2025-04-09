@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'com.github.dcendents.android-maven'
@@ -79,6 +80,56 @@ install.repositories.mavenInstaller.pom.project {
         developer {
             id = 'natario'
             name 'Mattia Iavarione'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/liruohrh/Transcoder")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            pom {
+                artifactId = libArtifactId
+                groupId = libGroup
+                version = libVersion
+
+                name = libName
+                description = libDescription
+                url = githubUrl
+
+                licenses {
+                    license {
+                        name = libLicenseName
+                        url = libLicenseUrl
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'natario'
+                        name = 'Mattia Iavarione'
+                    }
+                    developer {
+                        id = 'liruohrh'
+                        name = 'LiRuo'
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:https://github.com/liruohrh/Transcoder.git"
+                    developerConnection = "scm:git:ssh://git@github.com:liruohrh/Transcoder.git"
+                    url = "https://github.com/liruohrh/Transcoder"
+                }
+            }
         }
     }
 }

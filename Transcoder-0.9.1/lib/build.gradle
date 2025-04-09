@@ -1,3 +1,4 @@
+apply plugin: 'maven-publish'
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 // apply plugin: 'com.jfrog.bintray'
@@ -131,4 +132,54 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives javadocJar
     archives sourcesJar
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/liruohrh/Transcoder")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            pom {
+                name = 'Transcoder'
+                description = 'Accelerated video transcoding using Android MediaCodec API without native code (no LGPL/patent issues)'
+                url = 'https://github.com/natario1/Transcoder'
+
+                packaging = 'aar'
+                groupId = project.group
+                artifactId = 'transcoder'
+                version = project.version
+
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/liruohrh/Transcoder.git"
+                    developerConnection = "scm:git:ssh://git@github.com:liruohrh/Transcoder.git"
+                    url = "https://github.com/liruohrh/Transcoder"
+
+                }
+                developers {
+                    developer {
+                        id = 'natario'
+                        name = 'Mattia Iavarone'
+                    }
+                    developer {
+                        id = 'liruohrh'
+                        name = 'LiRuo'
+                    }
+                }
+            }
+        }
+    }
 }
